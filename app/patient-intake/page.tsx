@@ -101,17 +101,31 @@ export default function PatientIntake() {
                         <div className='flex flex-col'>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label} htmlFor="firstName">
-                                    First Name <span className="sr-only">(required)</span> 
+                                    First Name <span className="sr-only">(required)</span>
                                 </label>
                                 <input
                                     className={`${styles.textInput} ${errors.firstName ? 'border-red-500' : ''}`}
                                     id="firstName"
-                                    {...register('firstName', { required: 'First name is required' })}
+                                    {...register('firstName', {
+                                        required: 'First name is required',
+                                        minLength: {
+                                            value: 3,
+                                            message: 'First name must be at least 3 characters',
+                                        },
+                                        maxLength: {
+                                            value: 30,
+                                            message: 'First name cannot exceed 30 characters',
+                                        },
+                                        pattern: {
+                                            value: /^[a-zA-Z]+$/,
+                                            message: 'Only letters are allowed',
+                                        },
+                                    })}
                                     placeholder="Enter your first name"
                                     onBlur={() => trigger('firstName')}
                                 />
                             </div>
-                            {errors.firstName && <span className={styles.errorMsg} aria-live="assertive">{errors.firstName.message}</span>}
+                            {errors.firstName && <span data-cy='firstName-error' className={styles.errorMsg} aria-live="assertive">{errors.firstName.message}</span>}
                         </div>
 
                         <div className='flex flex-col'>
@@ -122,12 +136,24 @@ export default function PatientIntake() {
                                 <input
                                     className={`${styles.textInput} ${errors.lastName ? 'border-red-500' : ''}`}
                                     id="lastName"
-                                    {...register('lastName', { required: 'Last name is required' })}
+                                    {...register('lastName', { required: 'Last name is required',
+                                        minLength: {
+                                            value: 3,
+                                            message: 'Last name must be at least 3 characters',
+                                        },
+                                        maxLength: {
+                                            value: 30,
+                                            message: 'Last name cannot exceed 30 characters',
+                                        },
+                                        pattern: {
+                                            value: /^[a-zA-Z]+$/,
+                                            message: 'Only letters are allowed',
+                                        }, })}
                                     placeholder="Enter your last name"
                                     onBlur={() => trigger('lastName')}
                                 />
                             </div>
-                            {errors.lastName && <span className={styles.errorMsg} aria-live="assertive">{errors.lastName.message}</span>}
+                            {errors.lastName && <span data-cy='lastName-error' className={styles.errorMsg} aria-live="assertive">{errors.lastName.message}</span>}
                         </div>
 
                         <div className='flex flex-col'>
@@ -162,7 +188,7 @@ export default function PatientIntake() {
                                     onBlur={() => trigger('birthDate')}
                                 />
                             </div>
-                            {errors.birthDate && <span className={styles.errorMsg} aria-live="assertive">{errors.birthDate.message}</span>}
+                            {errors.birthDate && <span data-cy="birthDate-error" className={styles.errorMsg} aria-live="assertive">{errors.birthDate.message}</span>}
                         </div>
 
                         <div className='flex flex-col'>
@@ -178,14 +204,14 @@ export default function PatientIntake() {
                                         required: 'Phone number is required',
                                         pattern: {
                                             value: /^\d{10}$/,
-                                            message: 'Phone number must be exactly 10 digits',
+                                            message: 'Phone number must be exactly 10 digits (only numbers allowed)',
                                         }
                                     })}
                                     placeholder="Enter the phone number"
                                     onBlur={() => trigger('phone')}
                                 />
                             </div>
-                            {errors.phone && <span className={styles.errorMsg} aria-live="assertive">{errors.phone.message}</span>}
+                            {errors.phone && <span data-cy='phone-error' className={styles.errorMsg} aria-live="assertive">{errors.phone.message}</span>}
                         </div>
 
 
@@ -203,7 +229,7 @@ export default function PatientIntake() {
                                     onBlur={() => trigger('email')}
                                 />
                             </div>
-                            {errors.email && <span className={styles.errorMsg} aria-live="assertive">{errors.email.message}</span>}
+                            {errors.email && <span data-cy='email-error' className={styles.errorMsg} aria-live="assertive">{errors.email.message}</span>}
                         </div>
                     </div>
 
@@ -223,7 +249,7 @@ export default function PatientIntake() {
                                     <label htmlFor={gender.id}>{gender.label}</label>
                                 </div>
                             ))}
-                            {errors.gender && <span className={styles.errorMsg} aria-live="assertive">{errors.gender.message}</span>}
+                            {errors.gender && <span data-cy='gender-error' className={styles.errorMsg} aria-live="assertive">{errors.gender.message}</span>}
                         </div>
                     </fieldset>
 
@@ -247,15 +273,15 @@ export default function PatientIntake() {
                                                 message: 'Street address must be at least 5 characters',
                                             },
                                             maxLength: {
-                                                value: 100,
-                                                message: 'Street address cannot exceed 100 characters',
+                                                value: 80,
+                                                message: 'Street address cannot exceed 80 characters',
                                             },
                                         })}
                                         placeholder="Enter street name and number"
                                         onBlur={() => trigger('street')}
                                     />
                                 </div>
-                                {errors.street && <span className={styles.errorMsg} aria-live="assertive">{errors.street.message}</span>}
+                                {errors.street && <span data-cy='street-error' className={styles.errorMsg} aria-live="assertive">{errors.street.message}</span>}
                             </div>
 
                             <div className={styles.inputGroup}>
@@ -296,7 +322,7 @@ export default function PatientIntake() {
                                         onBlur={() => trigger('city')}
                                     />
                                 </div>
-                                {errors.city && <span className={styles.errorMsg} aria-live="assertive">{errors.city.message}</span>}
+                                {errors.city && <span data-cy='city-error' className={styles.errorMsg} aria-live="assertive">{errors.city.message}</span>}
                             </div>
 
                             <div className='flex flex-col'>
@@ -318,7 +344,7 @@ export default function PatientIntake() {
                                         ))}
                                     </select>
                                 </div>
-                                {errors.state && <span className={styles.errorMsg} aria-live="assertive">{errors.state.message}</span>}
+                                {errors.state && <span data-cy='state-error' className={styles.errorMsg} aria-live="assertive">{errors.state.message}</span>}
                             </div>
 
 
@@ -345,7 +371,7 @@ export default function PatientIntake() {
                                         onBlur={() => trigger('zipCode')}
                                     />
                                 </div>
-                                {errors.zipCode && <span className={styles.errorMsg} aria-live="assertive">{errors.zipCode.message}</span>}
+                                {errors.zipCode && <span data-cy='zipCode-error' className={styles.errorMsg} aria-live="assertive">{errors.zipCode.message}</span>}
                             </div>
                         </div>
                     </fieldset>

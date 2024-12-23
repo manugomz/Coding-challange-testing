@@ -21,20 +21,22 @@ export default function Page() {
                 <h1 className='mb-3 text-2xl'>Patients List</h1>
 
                 <ul className="w-11/12 lg:w-10/12 ">
-                    {patients.map((patient: Patient) => (
+                {!patients && (<p>No patients found</p>)}
+                    {patients?.map((patient: Patient) => (
                         <div key={patient.phone}>
                             <li className="flex w-full justify-between items-center p-3 border-b-2 shadow-md">
                                 <span>{`${patient.firstName} ${patient.lastName}`}</span>
                                 <button
                                     className="bg-blue-500 text-white px-4 py-2 rounded-md"
                                     onClick={() => handleToggleDropdown(patient.phone)}
+                                    data-cy='details-button'
                                 >
                                     {openDropdown === patient.phone ? 'Hide Details' : 'Show Details'}
                                 </button>
 
                             </li>
                             {openDropdown === patient.phone && (
-                                <div className=" p-4 border rounded-md">
+                                <div className=" p-4 border rounded-md" data-cy='patient-information'>
                                     <h3 className="text-lg font-bold text-center">Patient Information</h3>
                                     <ul className='grid md:grid-cols-2'>
                                         <li><strong>Gender:</strong> {patient.gender}</li>
