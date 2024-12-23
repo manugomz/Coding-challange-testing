@@ -1,10 +1,10 @@
 
-export interface FormValues {
+export interface Patient {
     firstName: string;
     lastName: string;
     birthDate: string;
     phone: string;
-    email?: string;
+    email: string;
     gender: string;
     street: string;
     interior?: string;
