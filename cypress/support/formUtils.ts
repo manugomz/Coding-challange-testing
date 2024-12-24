@@ -34,6 +34,7 @@ export const fillAndSubmitForm = (data: Patient, submit: boolean = true): void =
         cy.get(`input[name="gender"][value="${data.gender}"]`).check();
     }
     if (data.street) cy.get('#street').type(data.street);
+    if (data.interior) cy.get('#interior').type(data.interior);
     if (data.city) cy.get('#city').type(data.city);
     if (data.state) cy.get('#state').select(data.state);
     if (data.zipCode) cy.get('#zipCode').type(data.zipCode);

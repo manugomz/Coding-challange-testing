@@ -214,7 +214,6 @@ export default function PatientIntake() {
                             {errors.phone && <span data-cy='phone-error' className={styles.errorMsg} aria-live="assertive">{errors.phone.message}</span>}
                         </div>
 
-
                         <div className='flex flex-col'>
                             <div className={styles.inputGroup}>
                                 <label className={styles.label} htmlFor="email">

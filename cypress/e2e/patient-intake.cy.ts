@@ -3,9 +3,6 @@ import { assertFields, assertStorageData, assertValidationErrors, fillAndSubmitF
 describe('Patient Intake Form', () => {
     beforeEach(() => {
         cy.visit('http://localhost:3000/patient-intake');
-    });
-
-    afterEach(() => {
         cy.window().then((window) => {
             window.localStorage.clear();
         });
@@ -191,6 +188,7 @@ describe('Patient Intake Form', () => {
             email: 'joanne.blow@example.com',
             gender: 'female',
             street: 'P.O. Box 45',
+            interior:'Interior 305',
             city: 'Phoenix',
             state: 'AZ',
             zipCode: '43210',
