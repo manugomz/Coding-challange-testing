@@ -30,8 +30,6 @@ describe('Patient Intake Form', () => {
     beforeEach(() => {
         cy.visit('http://localhost:3000/patient-intake');
         fillAndSubmitForm(testData[0]);
-        cy.visit('http://localhost:3000/patient-intake');
-        fillAndSubmitForm(testData[1]);
     });
 
     it('should display no patients message if the patients list is empty', () => {
@@ -46,6 +44,8 @@ describe('Patient Intake Form', () => {
     });
 
     it('Should render all patients from the PatientFetch function', () => {
+        cy.visit('http://localhost:3000/patient-intake');
+        fillAndSubmitForm(testData[1]);
         cy.get('ul > div').should('have.length', testData.length);
     });
 
