@@ -21,7 +21,7 @@ export default function Page() {
                 <h1 className='mb-3 text-2xl'>Patients List</h1>
 
                 <ul className="w-11/12 lg:w-10/12 ">
-                {!patients && (<p>No patients found</p>)}
+                    {!patients && (<p>No patients found</p>)}
                     {patients?.map((patient: Patient) => (
                         <div key={patient.phone}>
                             <li className="flex w-full justify-between items-center p-3 border-b-2 shadow-md">
@@ -38,16 +38,20 @@ export default function Page() {
                             {openDropdown === patient.phone && (
                                 <div className=" p-4 border rounded-md" data-cy='patient-information'>
                                     <h3 className="text-lg font-bold text-center">Patient Information</h3>
-                                    <ul className='grid md:grid-cols-2'>
-                                        <li><strong>Gender:</strong> {patient.gender}</li>
-                                        <li><strong>Phone:</strong> {patient.phone}</li>
-                                        <li><strong>Email:</strong> {patient.email || 'None'}</li>
-                                        <li><strong>Address:</strong> {patient.street},</li>
-                                        <li> {patient.interior}</li>
-                                        <li>{patient.city}, {patient.state}</li>
-                                        <li>{patient.zipCode}</li>
-                                        <li><strong>Birth Date:</strong> {patient.birthDate}</li>
-                                    </ul>
+                                    <div className='grid md:grid-cols-2'>
+                                        <div>
+                                            <p><strong>Gender:</strong> {patient.gender}</p>
+                                            <p><strong>Phone:</strong> {patient.phone}</p>
+                                            <p><strong>Email:</strong> {patient.email || 'None'}</p>
+                                            <p><strong>Birth Date:</strong> {patient.birthDate}</p>
+                                        </div>
+                                        <div>
+                                            <p><strong>Address:</strong> {patient.street},</p>
+                                            <p> {patient.interior}</p>
+                                            <p>{patient.city}, {patient.state}</p>
+                                            <p>{patient.zipCode}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             )}</div>
 
