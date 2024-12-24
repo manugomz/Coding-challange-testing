@@ -171,7 +171,7 @@ describe('Patient Intake Form', () => {
             expect(savedData).to.not.be.null;
             const patientData = JSON.parse(savedData!);
 
-            assertStorageData(patientData,0,testDataValid)
+            assertStorageData(patientData, 0, testDataValid)
         });
     });
 
@@ -188,7 +188,7 @@ describe('Patient Intake Form', () => {
             email: 'joanne.blow@example.com',
             gender: 'female',
             street: 'P.O. Box 45',
-            interior:'Interior 305',
+            interior: 'Interior 305',
             city: 'Phoenix',
             state: 'AZ',
             zipCode: '43210',
@@ -201,8 +201,8 @@ describe('Patient Intake Form', () => {
             expect(savedData).to.not.be.null;
             const patientData = JSON.parse(savedData!);
 
-            assertStorageData(patientData,0,testDataValid)
-            assertStorageData(patientData,1,testDataValid2)
+            assertStorageData(patientData, 0, testDataValid)
+            assertStorageData(patientData, 1, testDataValid2)
         });
     });
 });
