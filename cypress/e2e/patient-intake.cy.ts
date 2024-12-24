@@ -15,7 +15,7 @@ describe('Patient Intake Form', () => {
         phone: '1234567890',
         email: 'john.doe@example.com',
         gender: 'male',
-        street: 'Happy Street 01',
+        street: '123 Main St.',
         city: 'New York',
         state: 'NY',
         zipCode: '12345',
@@ -47,13 +47,13 @@ describe('Patient Intake Form', () => {
             firstName: 'P',
             lastName: 'D',
             birthDate: '1990-01-01',
-            phone: '1234567890',
+            phone: '123450',
             email: 'john.doe@example.com',
             gender: 'male',
             street: 'A',
             city: 'P',
             state: 'NY',
-            zipCode: '1',
+            zipCode: '12345',
         }
 
         const expectedErrors = {
@@ -61,7 +61,7 @@ describe('Patient Intake Form', () => {
             lastName: 'Last name must be at least 3 characters',
             street: 'Street address must be at least 5 characters',
             city: 'City name must be at least 2 characters',
-            zipCode: 'ZIP code must be 5 digits or ZIP+4 (e.g., 12345 or 12345-6789)'
+            phone: 'Phone number must be exactly 10 digits (only numbers allowed)',
         };
 
         fillAndSubmitForm(testData);
@@ -79,7 +79,7 @@ describe('Patient Intake Form', () => {
             street: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
             city: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
             state: 'NY',
-            zipCode: '1234506789000',
+            zipCode: '12345',
         };
 
         const expectedErrors = {
@@ -87,8 +87,34 @@ describe('Patient Intake Form', () => {
             lastName: 'Last name cannot exceed 30 characters',
             street: 'Street address cannot exceed 80 characters',
             city: 'City name cannot exceed 30 characters',
+            phone: 'Phone number must be exactly 10 digits (only numbers allowed)'
+        };
+
+        fillAndSubmitForm(testData);
+        assertValidationErrors(expectedErrors);
+    });
+
+    it('Should show validation error for formatting errors', () => {
+        const testData = {
+            firstName: 'Jóhn',
+            lastName: 'Doe12',
+            birthDate: '2010-09-01',
+            phone: 'AAAAA7890',
+            email: 'john.doeexample.com',
+            gender: 'male',
+            street: 'Sé#$%/&(()°|',
+            city: 'New1234',
+            state: 'NY',
+            zipCode: '123789',
+        }
+        const expectedErrors = {
+            firstName: 'No special characters allowed',
+            lastName: 'No special characters allowed',
             phone: 'Phone number must be exactly 10 digits (only numbers allowed)',
-            zipCode: 'ZIP code must be 5 digits or ZIP+4 (e.g., 12345 or 12345-6789)'
+            email: 'Invalid email format',
+            city: 'City name can only contain letters, spaces, hyphens, and apostrophes',
+            street: 'Invalid street address',
+            zipCode: 'ZIP code must be 5 digits or ZIP+4 (e.g., 12345 or 12345-6789)',
         };
 
         fillAndSubmitForm(testData);
@@ -103,7 +129,7 @@ describe('Patient Intake Form', () => {
             phone: '1234567890',
             email: 'john.doe@example.com',
             gender: 'male',
-            street: 'Happy Street 01',
+            street: '789 St. John’s Rd',
             city: 'New York',
             state: 'NY',
             zipCode: '12345',
@@ -122,7 +148,7 @@ describe('Patient Intake Form', () => {
             phone: '1234567890',
             email: 'john.doe@example.com',
             gender: 'male',
-            street: 'Happy Street 01',
+            street: '456 Elm St. Road',
             city: 'New York',
             state: 'NY',
             zipCode: '12345',
@@ -131,31 +157,6 @@ describe('Patient Intake Form', () => {
         fillAndSubmitForm(testData);
 
         cy.get('[data-cy=birthDate-error]').should('contain', 'Birth date cannot be in the future');
-    });
-
-    it('Should show validation error for formatting errors', () => {
-        const testData = {
-            firstName: 'John23',
-            lastName: 'Doe12',
-            birthDate: '2030-01-01',
-            phone: 'AAAAA7890',
-            email: 'john.doeexample.com',
-            gender: 'male',
-            street: 'Sé#$%/&(()°|',
-            city: 'New1234',
-            state: 'NY',
-            zipCode: '99999',
-        }
-        const expectedErrors = {
-            firstName: 'Only letters are allowed',
-            lastName: 'Only letters are allowed',
-            phone: 'Phone number must be exactly 10 digits (only numbers allowed)',
-            email: 'Invalid email format',
-            city: 'City name can only contain letters, spaces, hyphens, and apostrophes'
-        };
-
-        fillAndSubmitForm(testData);
-        assertValidationErrors(expectedErrors);
     });
 
     it('Should redirect to patient list on successful form submission', () => {

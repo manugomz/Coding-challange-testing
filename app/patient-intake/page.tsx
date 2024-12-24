@@ -82,9 +82,12 @@ const states = [
 ];
 
 export default function PatientIntake() {
-    const { register, handleSubmit, formState: { errors }, reset, trigger } = useForm<Patient>();
+    const { register, handleSubmit, setValue, reset, trigger, formState: { errors } } = useForm<Patient>();
     const router = useRouter();
 
+    const capitalizeFirstLetter = (value: string) => {
+        return value.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+    };
 
     const onSubmit: SubmitHandler<Patient> = (data) => {
         savePatientIntake(data);
@@ -118,7 +121,11 @@ export default function PatientIntake() {
                                         },
                                         pattern: {
                                             value: /^[a-zA-Z]+$/,
-                                            message: 'Only letters are allowed',
+                                            message: 'No special characters allowed',
+                                        },
+                                        onChange: (e) => {
+                                            const transformedValue = capitalizeFirstLetter(e.target.value);
+                                            setValue('firstName', transformedValue, { shouldValidate: true });
                                         },
                                     })}
                                     placeholder="Enter your first name"
@@ -136,7 +143,8 @@ export default function PatientIntake() {
                                 <input
                                     className={`${styles.textInput} ${errors.lastName ? 'border-red-500' : ''}`}
                                     id="lastName"
-                                    {...register('lastName', { required: 'Last name is required',
+                                    {...register('lastName', {
+                                        required: 'Last name is required',
                                         minLength: {
                                             value: 3,
                                             message: 'Last name must be at least 3 characters',
@@ -147,8 +155,15 @@ export default function PatientIntake() {
                                         },
                                         pattern: {
                                             value: /^[a-zA-Z]+$/,
-                                            message: 'Only letters are allowed',
-                                        }, })}
+                                            message: 'No special characters allowed',
+                                        },
+
+
+                                        onChange: (e) => {
+                                            const transformedValue = capitalizeFirstLetter(e.target.value);
+                                            setValue('lastName', transformedValue, { shouldValidate: true });
+                                        },
+                                    })}
                                     placeholder="Enter your last name"
                                     onBlur={() => trigger('lastName')}
                                 />
@@ -275,6 +290,11 @@ export default function PatientIntake() {
                                                 value: 80,
                                                 message: 'Street address cannot exceed 80 characters',
                                             },
+                                            pattern: {
+
+                                                value: /^(P\.O\.\sBox\s\d+|\d+\s[\wÀ-ÖØ-öø-ÿ.,’'’\-]+(\s[\wÀ-ÖØ-öø-ÿ.,’'’\-]+)*)$/,
+                                                message: 'Invalid street address',
+                                            },
                                         })}
                                         placeholder="Enter street name and number"
                                         onBlur={() => trigger('street')}
@@ -315,6 +335,10 @@ export default function PatientIntake() {
                                             pattern: {
                                                 value: /^[a-zA-Z\s'-]+$/,
                                                 message: 'City name can only contain letters, spaces, hyphens, and apostrophes',
+                                            },
+                                            onChange: (e) => {
+                                                const transformedValue = capitalizeFirstLetter(e.target.value);
+                                                setValue('city', transformedValue, { shouldValidate: true });
                                             },
                                         })}
                                         placeholder="Enter city"
@@ -360,11 +384,7 @@ export default function PatientIntake() {
                                             required: 'ZIP code is required', pattern: {
                                                 value: /^\d{5}(-\d{4})?$/,
                                                 message: 'ZIP code must be 5 digits or ZIP+4 (e.g., 12345 or 12345-6789)',
-                                            },
-                                            validate: (value) => {
-                                                const zip = parseInt(value, 10);
-                                                return (zip >= 501 && zip <= 99950) || 'Please enter a valid ZIP code';
-                                            },
+                                            }
                                         })}
                                         placeholder="Enter ZIP code"
                                         onBlur={() => trigger('zipCode')}

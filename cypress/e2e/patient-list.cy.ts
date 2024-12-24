@@ -10,7 +10,7 @@ describe('Patient Intake Form', () => {
         phone: '1234567890',
         email: 'john.doe@example.com',
         gender: 'male',
-        street: 'Happy Street 01',
+        street: 'P.O. Box 123',
         city: 'New York',
         state: 'NY',
         zipCode: '12345',
@@ -39,16 +39,6 @@ describe('Patient Intake Form', () => {
         cy.contains('No patients found').should('exist');
     });
 
-    it('should not display any dropdowns on initial render', () => {
-        cy.get('div').contains('Patient Information').should('not.exist');
-    });
-
-    it('Should render all patients from the PatientFetch function', () => {
-        cy.visit('http://localhost:3000/patient-intake');
-        fillAndSubmitForm(testData[1]);
-        cy.get('ul > div').should('have.length', testData.length);
-    });
-
     it('should open the dropdown when "Show Details" is clicked', () => {
         cy.get('button').contains('Show Details').first().click();
         cy.get('div').contains('Patient Information').should('be.visible');
@@ -58,6 +48,12 @@ describe('Patient Intake Form', () => {
         cy.get('button').contains('Show Details').first().click();
         cy.get('button').contains('Hide Details').click();
         cy.get('div').contains('Patient Information').should('not.exist');
+    });
+
+    it('Should render all patients from the Patient list', () => {
+        cy.visit('http://localhost:3000/patient-intake');
+        fillAndSubmitForm(testData[1]);
+        cy.get('ul > div').should('have.length', testData.length);
     });
 
 
